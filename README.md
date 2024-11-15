@@ -1,4 +1,4 @@
-# NRLBets (Project Name Pending)
+# NRLBets (Project Name Pending - League Ledger?)
 
 NRLBets is a mock betting platform for NRL (National Rugby League) games. It allows friends and family to place bets with fake money and track their progress throughout the season. The platform is designed to be fun, engaging, and competitive with features like leaderboards, achievements, and seasonal stats.
 
