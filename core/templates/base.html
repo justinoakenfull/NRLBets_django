@@ -28,9 +28,20 @@
                 <nav class="flex-column">
                     <div class="nav-item px-3"><a href="" class="nav-link active" aria-current="page"><span class="bi bi-house-door-fill-nav-menu"></span> Home</a></div>
                     <div class="nav-item px-3"><a href="counter" class="nav-link"><span class="bi bi-arrow-right-square-fill-nav-menu text-center"></span> Upcoming Games </a></div>
-                    <div class="nav-item px-3"><a href="auth" class="nav-link"><span class="bi bi-lock-nav-menu"></span> Auth Required</a></div>
-                    <div class="nav-item px-3"><a href="Account/Register" class="nav-link"><span class="bi bi-person-nav-menu"></span> Register</a></div>
-                    <div class="nav-item px-3"><a href="Account/Login" class="nav-link"><span class="bi bi-person-badge-nav-menu"></span> Login</a></div>
+                    {% if user.is_authenticated %}
+                    <div class="nav-item px-3"><a href="{% url 'profile' %}" class="nav-link"><span class="bi bi-lock-nav-menu"></span> My Profile</a></div>
+                    <div class="nav-item px-3">
+                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn btn-link text-danger" style="text-decoration: none;">
+                                <span class="bi bi-box-arrow-right"></span> Logout
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="nav-item px-3"><a href="{% url 'register' %}" class="nav-link"><span class="bi bi-person-nav-menu"></span> Register</a></div>
+                    <div class="nav-item px-3"><a href="{% url 'login' %}" class="nav-link"><span class="bi bi-person-badge-nav-menu"></span> Login</a></div>
+                    {% endif %}
                 </nav>
             </div>
         </div>
