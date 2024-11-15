@@ -43,7 +43,7 @@ NRLBets is a mock betting platform for NRL (National Rugby League) games. It all
 - PostgreSQL or SQLite (default for development)
 
 ### Future Features
-
+Possible Future features but probably not.
     - Fantasy Bets: Parlay bets for higher rewards.
     - Betting Challenges: Weekly challenges for added competition.
     - Interactive Stats: Visualize seasonal stats like total bets and win rates.
