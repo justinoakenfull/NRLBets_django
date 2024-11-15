@@ -36,6 +36,7 @@ NRLBets is a mock betting platform for NRL (National Rugby League) games. It all
 ---
 
 ## Setup Instructions
+Work it out. :P (Aimed at me)
 
 ### Prerequisites
 - Python 3.10+
