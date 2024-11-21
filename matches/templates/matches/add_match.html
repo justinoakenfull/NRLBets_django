@@ -2,74 +2,115 @@
 {% block title %}Add Match{% endblock %}
 {% load static %}
 {% load form_extras %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static '/css/team_colours.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-4">
     <h2 class="text-center mb-4">Add Match</h2>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Oops!</strong> There was an error processing your request. Please check the form and try again.
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div>{{ error }}</div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+    {% endif %}
     <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
-        <div class="row">
+        <div class="row gy-3">
             <!-- Match Date -->
-            <div class="col-md-6 mb-3">
+            <div class="col-12 col-md-6">
                 <label for="id_match_date" class="form-label">Match Date</label>
                 {{ form.match_date|add_class:"form-control" }}
             </div>
             <!-- Match Time -->
-            <div class="col-md-6 mb-3">
+            <div class="col-12 col-md-6">
                 <label for="id_match_time" class="form-label">Match Time</label>
                 {{ form.match_time|add_class:"form-control" }}
             </div>
         </div>
-        <div class="row">
-            <!-- Home Team -->
-            <div class="col-md-6 mb-3">
-                <label for="id_home_team" class="form-label">Home Team</label>
-                {{ form.home_team|add_class:"form-select" }}
-            </div>
-            <!-- Away Team -->
-            <div class="col-md-6 mb-3">
-                <label for="id_away_team" class="form-label">Away Team</label>
-                {{ form.away_team|add_class:"form-select" }}
-            </div>
-        </div>
-        <div class="row">
-            <!-- Match Location -->
-            <div class="col-md-12 mb-3">
-                <label for="id_match_location" class="form-label">Match Location</label>
-                {{ form.match_location|add_class:"form-select" }}
+        <div class="row gy-3">
+            <!-- Home Team Selection -->
+            <div class="col-12">
+                <label class="form-label d-block mb-3">Select Home Team</label>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    {% for key, team in TEAMS.items %}
+                    <input type="radio" id="home_team_{{ key }}" name="home_team" value="{{ key }}" class="d-none">
+                    <label class="team-card" for="home_team_{{ key }}">
+                        <div class="team-icon" style="background: {{ team.color }};"></div>
+                        <div class="team-name">{{ team.name }}</div>
+                    </label>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <div class="row">
-            <!-- Home Score -->
-            <div class="col-md-6 mb-3">
-                <label for="id_home_score" class="form-label">Home Score</label>
-                {{ form.home_score|add_class:"form-control" }}
-            </div>
-            <!-- Away Score -->
-            <div class="col-md-6 mb-3">
-                <label for="id_away_score" class="form-label">Away Score</label>
-                {{ form.away_score|add_class:"form-control" }}
+        
+        <div class="row gy-3">
+            <!-- Away Team Selection -->
+            <div class="col-12">
+                <label class="form-label d-block mb-3">Select Away Team</label>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    {% for key, team in TEAMS.items %}
+                    <input type="radio" id="away_team_{{ key }}" name="away_team" value="{{ key }}" class="d-none">
+                    <label class="team-card" for="away_team_{{ key }}">
+                        <div class="team-icon" style="background: {{ team.color }};"></div>
+                        <div class="team-name">{{ team.name }}</div>
+                    </label>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <div class="row">
+
+        <div class="row gy-3 align-items-center">
+            <!-- Magic Round Checkbox -->
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="magic_round" name="magic_round">
+                    <label class="form-check-label" for="magic_round">
+                        Is this a Magic Round match?
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row gy-3">
+            <!-- Match Location Selection -->
+            <div class="col-12">
+                <label for="match_location" class="form-label">Select Match Location</label>
+                <select name="match_location" id="match_location" class="form-select">
+                    {% for key, location in HOME_LOCATIONS.items %}
+                    <option value="{{ key }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <!-- Hidden Home Score Field -->
+        {{ form.home_score.as_hidden }}
+
+        <!-- Hidden Away Score Field -->
+        {{ form.away_score.as_hidden }}
+        <div class="row gy-3">
             <!-- Home Odds -->
-            <div class="col-md-4 mb-3">
+            <div class="col-12 col-md-4">
                 <label for="id_home_odds" class="form-label">Home Odds</label>
                 {{ form.home_odds|add_class:"form-control" }}
             </div>
             <!-- Draw Odds -->
-            <div class="col-md-4 mb-3">
+            <div class="col-12 col-md-4">
                 <label for="id_draw_odds" class="form-label">Draw Odds</label>
                 {{ form.draw_odds|add_class:"form-control" }}
             </div>
             <!-- Away Odds -->
-            <div class="col-md-4 mb-3">
+            <div class="col-12 col-md-4">
                 <label for="id_away_odds" class="form-label">Away Odds</label>
                 {{ form.away_odds|add_class:"form-control" }}
             </div>
         </div>
         <!-- Submit Button -->
-        <div class="text-center">
+        <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary px-4 py-2">Add Match</button>
         </div>
     </form>

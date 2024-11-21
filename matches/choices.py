@@ -2,7 +2,7 @@ HOME_LOCATIONS = {
     "BRI": "Suncorp Stadium",
     "CBR": "GIO Stadium",
     "CAN": "Accor Stadium",
-    "CAN": "Belmore Sports Ground",
+    "CAN SND": "Belmore Sports Ground",
     "CRO": "PointsBet Stadium",
     "DOL": "Dolphin Stadium",
     "DOL SND": "Dolphin Stadium",
@@ -23,7 +23,7 @@ HOME_LOCATIONS = {
     "WST SND": "Campbelltown Sports Stadium",
 }
 
-TEAMS = {
+TEAMS_KEYS = {
     "BRI": "Brisbane Broncos",
     "CBR": "Canberra Raiders",
     "CAN": "Canterbury Bulldogs",
@@ -41,4 +41,24 @@ TEAMS = {
     "STI": "St George Illawarra Dragons",
     "SYD": "Sydney Roosters",
     "WST": "West Tigers",
+}
+
+TEAMS = {
+    "BRI": {"name": "Brisbane Broncos", "color": "#7A003C"},  # Maroon
+    "CBR": {"name": "Canberra Raiders", "color": "#64A300"},  # Lime Green
+    "CAN": {"name": "Canterbury Bulldogs", "color": "#00338D"},  # Blue
+    "CRO": {"name": "Cronulla-Sutherland Sharks", "color": "#0096D6"},  # Sky Blue
+    "DOL": {"name": "Redcliffe Dolphins", "color": "#E30613"},  # Red
+    "GLD": {"name": "Gold Coast Titans", "color": "#005F9E"},  # Blue with a hint of Gold
+    "MAN": {"name": "Manly-Warringah Sea Eagles", "color": "#6C003F"},  # Maroon
+    "MEL": {"name": "Melbourne Storm", "color": "#432276"},  # Purple
+    "NEW": {"name": "Newcastle Knights", "color": "#00338D"},  # Blue and Red (Dominant Blue)
+    "NQL": {"name": "North Queensland Cowboys", "color": "#041E42"},  # Dark Blue
+    "NZW": {"name": "New Zealand Warriors", "color": "#000000"},  # Black
+    "PAR": {"name": "Parramatta Eels", "color": "#FFD700"},  # Gold
+    "PEN": {"name": "Penrith Panthers", "color": "#231F20"},  # Black
+    "SOU": {"name": "South Sydney Rabbitohs", "color": "#006C2C"},  # Green and Red (Dominant Green)
+    "STI": {"name": "St George Illawarra Dragons", "color": "#D50032"},  # Red
+    "SYD": {"name": "Sydney Roosters", "color": "#001E62"},  # Navy Blue
+    "WST": {"name": "West Tigers", "color": "#FF6600"},  # Orange
 }

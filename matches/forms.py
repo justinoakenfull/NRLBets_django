@@ -2,80 +2,72 @@ from django import forms
 from .models import Match
 from .choices import HOME_LOCATIONS, TEAMS
 
-class AddMatchForm(forms.Form):
-    match_date = forms.DateField(
-        widget=forms.DateInput(attrs={
-            'type': 'date',
-            'class': 'form-control',
-            'placeholder': 'Select match date and time'
-        })
-    )
-    match_time = forms.TimeField(
-        widget=forms.TimeInput(attrs={
-            'type': 'time',
-            'class': 'form-control',
-            'placeholder': 'Select match time'
-        })
-    )
-    home_team = forms.ChoiceField(
-        choices=[(key, value) for key, value in TEAMS.items()],
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
-    away_team = forms.ChoiceField(
-        choices=[(key, value) for key, value in TEAMS.items()],
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
-    magic_round = forms.BooleanField(
-        required=False,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input',
-                                          'id': 'magic_round'})
-    )
-    match_location = forms.ChoiceField(
-        choices=[(key, value) for key, value in HOME_LOCATIONS.items()],
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
+class AddMatchForm(forms.ModelForm):
+
     home_score = forms.IntegerField(
         min_value=0,
         max_value=150,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter home team score',
-            'step': 1
-        })
+        initial=0,
+        widget=forms.HiddenInput()
     )
+
+    # Define 'away_score' field
     away_score = forms.IntegerField(
         min_value=0,
         max_value=150,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter away team score',
-            'step': 1
-        })
+        initial=0,
+        widget=forms.HiddenInput()
     )
-    home_odds = forms.DecimalField(
-        max_digits=4,
-        decimal_places=2,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter home odds',
-            'step': '0.01'
-        })
-    )
-    draw_odds = forms.DecimalField(
-        max_digits=4,
-        decimal_places=2,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter draw odds',
-            'step': '0.01'
-        })
-    )
-    away_odds = forms.DecimalField(
-        max_digits=4,
-        decimal_places=2,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter away odds',
-            'step': '0.01'
-        })
-    )
+
+    class Meta:
+        model = Match
+        fields = [
+            'match_date', 'match_time', 'home_team', 'away_team', 'match_location', 'home_score', 'away_score', 
+            'home_odds', 'draw_odds', 'away_odds'
+        ]
+        widgets = {
+            'match_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control',
+                'placeholder': 'Select match date'
+            }),
+            'match_time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-control',
+                'placeholder': 'Select match time'
+            }),
+            'home_team': forms.RadioSelect(attrs={'class': 'form-check-input'}),
+            'away_team': forms.RadioSelect(attrs={'class': 'form-check-input'}),
+            'match_location': forms.Select(attrs={'class': 'form-control'}),
+            'home_score': forms.HiddenInput(),
+            'away_score': forms.HiddenInput(),
+            'home_odds': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter home odds',
+                'step': '0.01'
+            }),
+            'draw_odds': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter draw odds',
+                'step': '0.01'
+            }),
+            'away_odds': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter away odds',
+                'step': '0.01'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Populate team choices dynamically
+        # team_choices = [(key, value['name']) for key, value in TEAMS.items()]
+        # self.fields['home_team'].choices = team_choices
+        # self.fields['away_team'].choices = team_choices
+
+        # Populate location choices dynamically
+        location_choices = [(key, value) for key, value in HOME_LOCATIONS.items()]
+        self.fields['match_location'].choices = location_choices
+
+        print(self.fields['home_team'].choices)
+        print(self.fields['away_team'].choices)

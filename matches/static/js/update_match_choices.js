@@ -1,53 +1,60 @@
-document.addEventListener('DOMContentLoaded', function () {
-    location_choices = document.getElementById('id_match_location').options;
-    document.getElementById('id_home_team').addEventListener('change', function () {
-        update_location_choices(location_choices);
+document.addEventListener("DOMContentLoaded", function () {
+    const locationChoices = document.getElementById("match_location").options;
+    
+    // Add event listeners for team selection and magic round checkbox
+    document.querySelectorAll("input[name='home_team']").forEach((input) => {
+        input.addEventListener("change", function () {
+            updateLocationChoices(locationChoices);
+        });
     });
-    document.getElementById('id_away_team').addEventListener('change', function () {
-        update_location_choices(location_choices);
+
+    document.querySelectorAll("input[name='away_team']").forEach((input) => {
+        input.addEventListener("change", function () {
+            updateLocationChoices(locationChoices);
+        });
     });
-    document.getElementById('magic_round').addEventListener('change', function () {
-        update_location_choices(location_choices);
+
+    document.getElementById("magic_round").addEventListener("change", function () {
+        updateLocationChoices(locationChoices);
     });
 });
 
-function update_location_choices(location_choices) {
-    home_team = document.getElementById('id_home_team').value;
-    away_team = document.getElementById('id_away_team').value;
-    console.log('Home team: ' + home_team);
-    console.log('Away team: ' + away_team);
+function updateLocationChoices(locationChoices) {
+    // Get the selected home and away teams
+    const homeTeam = document.querySelector("input[name='home_team']:checked");
+    const awayTeam = document.querySelector("input[name='away_team']:checked");
+    const isMagicRound = document.getElementById("magic_round").checked;
 
-    updated_locations = [];
+    const homeTeamValue = homeTeam ? homeTeam.value : null;
+    const awayTeamValue = awayTeam ? awayTeam.value : null;
 
-    for (var i = 0; i < location_choices.length; i++) {
-        console.log('Checking: ' + location_choices[i].value);
-        if (!(location_choices[i].value == home_team || //check home 
-            location_choices[i].value == away_team || // check away
-            location_choices[i].value == home_team + ' SND' || // check secondary home
-            location_choices[i].value == away_team + ' SND' || // check secondary away
-            location_choices[i].value == home_team + ' TRD' || // check tertiary home
-            location_choices[i].value == away_team + ' THD' // check tertiary away
+    console.log("Home team: " + homeTeamValue);
+    console.log("Away team: " + awayTeamValue);
 
-        )) {
-            location_choices[i].style.display = 'none';
-            console.log('Removing ' + location_choices[i].value);
+    // Reset and update location choices
+    for (let i = 0; i < locationChoices.length; i++) {
+        const locationValue = locationChoices[i].value;
+
+        // Default behavior: hide all locations
+        locationChoices[i].style.display = "none";
+
+        // Display locations matching home/away teams or their secondary/tertiary variants
+        if (
+            locationValue === homeTeamValue ||
+            locationValue === awayTeamValue ||
+            locationValue === `${homeTeamValue} SND` ||
+            locationValue === `${awayTeamValue} SND` ||
+            locationValue === `${homeTeamValue} TRD` ||
+            locationValue === `${awayTeamValue} TRD`
+        ) {
+            locationChoices[i].style.display = "block";
+            document.getElementById("id_match_location").value = locationChoices[i].value;
         }
-        else
-        {
-            location_choices[i].style.display = 'block';
-            document.getElementById('id_match_location').value = location_choices[i].value;
-        }
-    };
 
-    if (document.getElementById('magic_round').checked)
-    {
-        for (var i = 0; i < location_choices.length; i++)
-        {
-            if (location_choices[i].value.includes('BRI'))
-            {
-                location_choices[i].style.display = 'block';
-                document.getElementById('id_match_location').value = location_choices[i].value;
-            }
+        // Special case for Magic Round
+        if (isMagicRound && locationValue.includes("BRI")) {
+            locationChoices[i].style.display = "block";
+            document.getElementById("id_match_location").value = locationChoices[i].value;
         }
-    };
+    }
 }

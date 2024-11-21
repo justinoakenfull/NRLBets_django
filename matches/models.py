@@ -1,5 +1,5 @@
 from django.db import models
-from .choices import HOME_LOCATIONS, TEAMS
+from .choices import HOME_LOCATIONS, TEAMS_KEYS
 
 # Create your models here.
 class Match(models.Model):
@@ -7,10 +7,10 @@ class Match(models.Model):
     match_date = models.DateTimeField()
     match_time = models.TimeField()
     match_location = models.CharField(max_length=100, choices=HOME_LOCATIONS)
-    home_team = models.CharField(max_length=100)
-    away_team = models.CharField(max_length=100)
-    home_score = models.IntegerField(max_length=100, choices=TEAMS)
-    away_score = models.IntegerField(max_length=100, choices=TEAMS)
+    home_team = models.CharField(max_length=100, choices=TEAMS_KEYS)
+    away_team = models.CharField(max_length=100, choices=TEAMS_KEYS)
+    home_score = models.IntegerField(max_length=100)
+    away_score = models.IntegerField(max_length=100)
     home_odds = models.DecimalField(max_digits=4, decimal_places=2)
     draw_odds = models.DecimalField(max_digits=4, decimal_places=2)
     away_odds = models.DecimalField(max_digits=4, decimal_places=2)
