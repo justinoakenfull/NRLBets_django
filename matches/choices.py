@@ -5,8 +5,7 @@ HOME_LOCATIONS = {
     "CAN SND": "Belmore Sports Ground",
     "CRO": "PointsBet Stadium",
     "DOL": "Dolphin Stadium",
-    "DOL SND": "Dolphin Stadium",
-    "DOL THD": "Sunshine Coast Stadium",
+    "DOL SND": "Sunshine Coast Stadium",
     "GLD": "Cbus Super Stadium",
     "MAN": "4 Pines Park",
     "MEL": "AAMI Park",
@@ -40,7 +39,7 @@ TEAMS_KEYS = {
     "SOU": "South Sydney Rabbitohs",
     "STI": "St George Illawarra Dragons",
     "SYD": "Sydney Roosters",
-    "WST": "West Tigers",
+    "WST": "Wests Tigers",
 }
 
 TEAMS = {

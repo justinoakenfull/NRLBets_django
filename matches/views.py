@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import AddMatchForm
 from .choices import HOME_LOCATIONS, TEAMS
 from .models import Match
+from odds.utils import OddsCalculator as OddsCalc
 
 # Create your views here.
 
@@ -29,7 +30,14 @@ def AddMatch(request):
 def upcomingMatches(request):
     matches = Match.objects.all()
     matches = matches.order_by('match_date', 'match_time')
+
+    odds = OddsCalc()
+    
     for match in matches:
         match.home_team = TEAMS[match.home_team]['name']
         match.away_team = TEAMS[match.away_team]['name']
+        match_odds = odds.predict_match_odds(match.home_team, match.away_team)
+        match.home_odds = match_odds['home_odds']
+        match.draw_odds = match_odds['draw_odds']
+        match.away_odds = match_odds['away_odds']
     return render(request, "matches/upcoming_matches.html", {'matches': matches})
