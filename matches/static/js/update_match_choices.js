@@ -48,13 +48,13 @@ function updateLocationChoices(locationChoices) {
             locationValue === `${awayTeamValue} TRD`
         ) {
             locationChoices[i].style.display = "block";
-            document.getElementById("id_match_location").value = locationChoices[i].value;
+            document.getElementById("match_location").value = locationChoices[i].value;
         }
 
         // Special case for Magic Round
         if (isMagicRound && locationValue.includes("BRI")) {
             locationChoices[i].style.display = "block";
-            document.getElementById("id_match_location").value = locationChoices[i].value;
+            document.getElementById("match_location").value = locationChoices[i].value;
         }
     }
 }

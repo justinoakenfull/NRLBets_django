@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Add Match{% endblock %}
+{% load static %}
+{% load form_extras %}
+
+{% block content %}
+<div>
+<h1>Upcoming Matches</h1>
+{% for match in matches %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ match.home_team }} vs {{ match.away_team }}</h5>
+            <p class="card-text">{{ match.match_date }} at {{ match.match_time }}</p>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

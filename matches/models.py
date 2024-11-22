@@ -4,7 +4,7 @@ from .choices import HOME_LOCATIONS, TEAMS_KEYS
 # Create your models here.
 class Match(models.Model):
     match_id = models.AutoField(primary_key=True)
-    match_date = models.DateTimeField()
+    match_date = models.DateField()
     match_time = models.TimeField()
     match_location = models.CharField(max_length=100, choices=HOME_LOCATIONS)
     home_team = models.CharField(max_length=100, choices=TEAMS_KEYS)

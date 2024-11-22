@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import AddMatchForm
 from .choices import HOME_LOCATIONS, TEAMS
+from .models import Match
 
 # Create your views here.
 
@@ -24,3 +25,11 @@ def AddMatch(request):
     else:
         form = AddMatchForm(initial={'home_score': 0, 'away_score': 0})
     return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
+
+def upcomingMatches(request):
+    matches = Match.objects.all()
+    matches = matches.order_by('match_date', 'match_time')
+    for match in matches:
+        match.home_team = TEAMS[match.home_team]['name']
+        match.away_team = TEAMS[match.away_team]['name']
+    return render(request, "matches/upcoming_matches.html", {'matches': matches})
