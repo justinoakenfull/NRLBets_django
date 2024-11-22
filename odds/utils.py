@@ -3,6 +3,11 @@ import os
 from datetime import datetime
 from django.conf import settings
 
+head_to_head_stats_multiplier = 1.5
+home_advantage_default = 0.146
+
+
+
 class OddsCalculator:
     START_DATES = {
         2024: datetime.strptime("03-Mar-24", "%d-%b-%y"),
@@ -18,6 +23,8 @@ class OddsCalculator:
         2021: datetime.strptime("03-Oct-21", "%d-%b-%y"),
         2020: datetime.strptime("25-Oct-20", "%d-%b-%y"),
     }
+
+
 
     def __init__(self):
         self.team_stats = {}
@@ -64,7 +71,7 @@ class OddsCalculator:
                 self.team_stats[away_team]['away_draws'] += game_weight
 
             # Update head-to-head stats with higher weight
-            head_to_head_weight = game_weight * 1.5
+            head_to_head_weight = game_weight * head_to_head_stats_multiplier
 
             # Home team stats in head-to-head
             self.head_to_head_stats[home_team][away_team]['home_games'] += head_to_head_weight
@@ -165,7 +172,7 @@ class OddsCalculator:
                 game_date,
                 self.START_DATES[game_date.year],
                 self.END_DATES[game_date.year],
-                max_weight=0.79,
+                max_weight=0.8,
                 min_weight=0.6,
             )
         elif past_seasons == 2:
@@ -173,7 +180,7 @@ class OddsCalculator:
                 game_date,
                 self.START_DATES[game_date.year],
                 self.END_DATES[game_date.year],
-                max_weight=0.59,
+                max_weight=0.6,
                 min_weight=0.4,
             )
         elif past_seasons == 3:
@@ -181,7 +188,7 @@ class OddsCalculator:
                 game_date,
                 self.START_DATES[game_date.year],
                 self.END_DATES[game_date.year],
-                max_weight=0.39,
+                max_weight=0.4,
                 min_weight=0.2,
             )
         elif past_seasons == 4:
@@ -189,7 +196,7 @@ class OddsCalculator:
                 game_date,
                 self.START_DATES[game_date.year],
                 self.END_DATES[game_date.year],
-                max_weight=0.19,
+                max_weight=0.2,
                 min_weight=0.05,
             )
         else:
@@ -201,7 +208,7 @@ class OddsCalculator:
         weight = ((game_position / total_days) * (max_weight - min_weight)) + min_weight
         return weight
 
-    def predict_match_odds(self, home_team, away_team, home_advantage_factor=0.146):
+    def predict_match_odds(self, home_team, away_team, home_advantage_factor=home_advantage_default):
         # Get baseline probabilities
         home_stats = self.team_stats.get(home_team, {
             'home_win_prob': 0.5,
@@ -228,10 +235,10 @@ class OddsCalculator:
             h2h_draw_prob = (head_to_head_home_stats['draw_prob'] + head_to_head_away_stats['draw_prob']) / 2
 
             # Combine probabilities (you can adjust the weighting factors as needed)
-            total_weight = 1.0 + 1.5  # Base weight + head-to-head weight
-            home_win_prob = (home_win_prob + 1.5 * h2h_home_win_prob) / total_weight
-            away_win_prob = (away_win_prob + 1.5 * h2h_away_win_prob) / total_weight
-            draw_prob = (draw_prob + 1.5 * h2h_draw_prob) / total_weight
+            total_weight = 1.0 + head_to_head_stats_multiplier  # Base weight + head-to-head weight
+            home_win_prob = (home_win_prob + head_to_head_stats_multiplier * h2h_home_win_prob) / total_weight
+            away_win_prob = (away_win_prob + head_to_head_stats_multiplier * h2h_away_win_prob) / total_weight
+            draw_prob = (draw_prob + head_to_head_stats_multiplier * h2h_draw_prob) / total_weight
 
         # Adjust for home advantage
         adjusted_home_win_prob = home_win_prob + home_advantage_factor
