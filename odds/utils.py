@@ -256,7 +256,7 @@ class OddsCalculator:
         away_odds = 1 / adjusted_away_win_prob
         draw_odds = 1 / adjusted_draw_prob
         return {
-            'home_odds': round(home_odds, 2),
-            'away_odds': round(away_odds, 2),
-            'draw_odds': abs(round(draw_odds, 2)),
+            'home_odds': round(home_odds, 4),
+            'away_odds': round(away_odds, 4),
+            'draw_odds': abs(round(draw_odds, 4)),
         }

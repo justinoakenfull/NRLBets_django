@@ -10,34 +10,43 @@ def AddMatch(request):
 
     if request.method == 'POST':
         form = AddMatchForm(request.POST)
-        # Process the form
-        print("Processing form")
-        add_match = form
-        print(add_match)
-        print("Checking if form is valid")
-        if add_match.is_valid():
-            print("Form is valid")
-            add_match.save()
-            print("Match saved")
-            return redirect('home')
+        if form.is_valid():
+            match = form.save(commit=False)
+            # Get the odds
+            oddsCalc = OddsCalc()
+            odds = oddsCalc.predict_match_odds(form.cleaned_data['home_team'], form.cleaned_data['away_team'])
+            # Set the odds
+            match.home_odds = odds['home_odds']
+            match.draw_odds = odds['draw_odds']
+            match.away_odds = odds['away_odds']
+            # Save the match
+            match.save()
+            return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
         print("Form is not valid")
-        print(add_match.errors)
+        print(match.errors)
         return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
     else:
+
+
         form = AddMatchForm(initial={'home_score': 0, 'away_score': 0})
     return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
 
 def upcomingMatches(request):
     matches = Match.objects.all()
+    matches = update_match_odds(matches)
     matches = matches.order_by('match_date', 'match_time')
 
     odds = OddsCalc()
     
-    for match in matches:
-        match.home_team = TEAMS[match.home_team]['name']
-        match.away_team = TEAMS[match.away_team]['name']
-        match_odds = odds.predict_match_odds(match.home_team, match.away_team)
-        match.home_odds = match_odds['home_odds']
-        match.draw_odds = match_odds['draw_odds']
-        match.away_odds = match_odds['away_odds']
     return render(request, "matches/upcoming_matches.html", {'matches': matches})
+
+def update_match_odds(matches):
+    oddsCalc = OddsCalc()
+    for match in matches:
+        odds = oddsCalc.predict_match_odds(match.home_team, match.away_team)
+        match.home_odds = odds['home_odds']
+        match.draw_odds = odds['draw_odds']
+        match.away_odds = odds['away_odds']
+        match.save()
+
+    return matches

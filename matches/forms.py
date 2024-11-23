@@ -1,6 +1,7 @@
 from django import forms
 from .models import Match
 from .choices import HOME_LOCATIONS, TEAMS
+from odds.utils import OddsCalculator as OddsCalc
 
 class AddMatchForm(forms.ModelForm):
 
@@ -16,6 +17,31 @@ class AddMatchForm(forms.ModelForm):
         min_value=0,
         max_value=150,
         initial=0,
+        widget=forms.HiddenInput()
+    )
+
+    home_odds = forms.DecimalField(
+        min_value=0,
+        max_value=150,
+        decimal_places=4,
+        initial=0,
+        required=False,
+        widget=forms.HiddenInput()
+    )
+    draw_odds = forms.DecimalField(
+        min_value=0,
+        max_value=150,
+        decimal_places=4,
+        initial=0,
+        required=False,
+        widget=forms.HiddenInput()
+    )
+    away_odds = forms.DecimalField(
+        min_value=0,
+        max_value=150,
+        decimal_places=4,
+        initial=0,
+        required=False,
         widget=forms.HiddenInput()
     )
 
@@ -41,33 +67,8 @@ class AddMatchForm(forms.ModelForm):
             'match_location': forms.Select(attrs={'class': 'form-control'}),
             'home_score': forms.HiddenInput(),
             'away_score': forms.HiddenInput(),
-            'home_odds': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter home odds',
-                'step': '0.01'
-            }),
-            'draw_odds': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter draw odds',
-                'step': '0.01'
-            }),
-            'away_odds': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter away odds',
-                'step': '0.01'
-            }),
+            'home_odds': forms.HiddenInput(),
+            'draw_odds': forms.HiddenInput(),
+            'away_odds': forms.HiddenInput()
+
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Populate team choices dynamically
-        # team_choices = [(key, value['name']) for key, value in TEAMS.items()]
-        # self.fields['home_team'].choices = team_choices
-        # self.fields['away_team'].choices = team_choices
-
-        # Populate location choices dynamically
-        location_choices = [(key, value) for key, value in HOME_LOCATIONS.items()]
-        self.fields['match_location'].choices = location_choices
-
-        print(self.fields['home_team'].choices)
-        print(self.fields['away_team'].choices)

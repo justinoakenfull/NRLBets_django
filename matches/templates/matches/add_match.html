@@ -92,23 +92,15 @@
 
         <!-- Hidden Away Score Field -->
         {{ form.away_score.as_hidden }}
-        <div class="row gy-3">
-            <!-- Home Odds -->
-            <div class="col-12 col-md-4">
-                <label for="id_home_odds" class="form-label">Home Odds</label>
-                {{ form.home_odds|add_class:"form-control" }}
-            </div>
-            <!-- Draw Odds -->
-            <div class="col-12 col-md-4">
-                <label for="id_draw_odds" class="form-label">Draw Odds</label>
-                {{ form.draw_odds|add_class:"form-control" }}
-            </div>
-            <!-- Away Odds -->
-            <div class="col-12 col-md-4">
-                <label for="id_away_odds" class="form-label">Away Odds</label>
-                {{ form.away_odds|add_class:"form-control" }}
-            </div>
-        </div>
+
+        <!-- Hidden Home Odds Field -->
+        {{ form.home_odds.as_hidden }}
+
+        <!-- Hidden Away Odds Field -->
+        {{ form.away_odds.as_hidden }}
+
+        <!-- Hidden Draw Odds Field -->
+        {{ form.draw_odds.as_hidden }}
         <!-- Submit Button -->
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary px-4 py-2">Add Match</button>

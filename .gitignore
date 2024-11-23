@@ -3,3 +3,5 @@ __pycache__
 /Pipfile
 /Pipfile.lock
 *.pyc
+matches/migrations/0004_alter_match_away_odds_alter_match_away_team_and_more.py
+matches/migrations/0005_alter_match_away_odds_alter_match_draw_odds_and_more.py
