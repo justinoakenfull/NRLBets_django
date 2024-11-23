@@ -4,18 +4,10 @@
 {% load form_extras %}
 
 {% block content %}
-<div>
+<div class="d-flex flex-fill row">
 <h1>Upcoming Matches</h1>
 {% for match in matches %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ match.home_team }} vs {{ match.away_team }}</h5>
-            <p class="card-text">{{ match.match_date }} at {{ match.match_time }}</p>
-            <p class="card-text">{{ match.home_team }}: {{ match.home_odds }}</p>
-            <p class="card-text">{{ match.away_team }}: {{ match.away_odds }}</p>
-            <p class="card-text">Draw: {{ match.draw_odds }}</p>
-        </div>
-    </div>
+    {% include 'matches/match_listing.html' %}
 {% endfor %}
 </div>
 {% endblock %}

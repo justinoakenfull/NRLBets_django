@@ -6,6 +6,7 @@ HOME_LOCATIONS = {
     "CRO": "PointsBet Stadium",
     "DOL": "Dolphin Stadium",
     "DOL SND": "Sunshine Coast Stadium",
+    "DOL TER": "Suncorp Stadium",
     "GLD": "Cbus Super Stadium",
     "MAN": "4 Pines Park",
     "MEL": "AAMI Park",

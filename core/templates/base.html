@@ -35,7 +35,7 @@
                     <div class="nav-item px-3"><a href="{% url 'profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> My Profile</a></div>
                     <div class="nav-item px-3"><a href="{% url 'upcoming_matches' %}" class="nav-link  {% if request.resolver_match.url_name == 'upcoming_matches' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> Matches</a></div>
                     {% if user.is_superuser %}
-                    <hr>
+                    <hr class="text-light">
                     <div class="nav-item px-3"><a href="{% url 'admin:index' %}" class="nav-link  {% if request.resolver_match.url_name == 'admin:index' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> Admin</a></div>
                     <div class="nav-item px-3"><a href="{% url 'add_match' %}" class="nav-link  {% if request.resolver_match.url_name == 'add_match' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> Add Match</a></div>
                     {% endif %}

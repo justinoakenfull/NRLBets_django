@@ -44,8 +44,8 @@ function updateLocationChoices(locationChoices) {
             locationValue === awayTeamValue ||
             locationValue === `${homeTeamValue} SND` ||
             locationValue === `${awayTeamValue} SND` ||
-            locationValue === `${homeTeamValue} TRD` ||
-            locationValue === `${awayTeamValue} TRD`
+            locationValue === `${homeTeamValue} TER` ||
+            locationValue === `${awayTeamValue} TER`
         ) {
             locationChoices[i].style.display = "block";
             document.getElementById("match_location").value = locationChoices[i].value;
