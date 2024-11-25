@@ -1,0 +1,32 @@
+.round-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.round-navigation a {
+    text-decoration: none;
+}
+
+.round-navigation a[style*="pointer-events: none;"] {
+    cursor: not-allowed;
+}
+
+.bet-button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.bet-button:hover {
+    background-color: #e2e6ea;
+}
+
+.bet-button.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}

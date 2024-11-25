@@ -32,10 +32,19 @@ def AddMatch(request):
     return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
 
 def upcomingMatches(request):
-    matches = Match.objects.all()
+
+    round = int(request.GET.get('round', None))
+    if round is None:
+        round = 1
+    if round < 1:
+        round = 1
+    if round > 27:
+        round = 27
+    matches = Match.objects.all().order_by('match_date', 'match_time')
     update_match_odds(matches)
     matches = matches.order_by('match_date', 'match_time')
     team_colors = {}
+    filtered_matches = []
 
     for match in matches:
         # Dynamically add color attributes
@@ -44,11 +53,26 @@ def upcomingMatches(request):
         # Rename teams to full names
         match.home_team_full = TEAMS.get(match.home_team, {}).get("name", match.home_team)
         match.away_team_full = TEAMS.get(match.away_team, {}).get("name", match.away_team)
+        # Add full location name
+        match.match_location_full = HOME_LOCATIONS.get(match.match_location, match.match_location)
+
+        match_round = match.match_date.isocalendar()[1]-9
+
+        if round == 1:
+            if match_round == 0:
+                filtered_matches.append(match)
+            if match_round == 1:
+                filtered_matches.append(match)
+        else:
+            if match_round == int(round):
+                filtered_matches.append(match)
+            
+        print(match_round)
 
 
     odds = OddsCalc()
     
-    return render(request, "matches/upcoming_matches.html", {'matches': matches, 'TEAMS': TEAMS})
+    return render(request, "matches/upcoming_matches.html", {'matches': filtered_matches, 'TEAMS': TEAMS, 'round': round, 'next_round': round+1, 'previous_round': round-1})
 
 def update_match_odds(matches):
     oddsCalc = OddsCalc()
