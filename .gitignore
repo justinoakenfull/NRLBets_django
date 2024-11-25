@@ -1,8 +1,7 @@
+__pycache__
 /.vscode
 /Pipfile
 /Pipfile.lock
-/*/__pycache__/*.cpython-313.pyc
-*/*/__pycache__/*.cpython-313.pyc
-*\__pycache__\*.cpython-313.pyc
-NrlBetting_django/__pycache__/settings.cpython-313.pyc
-NrlBetting_django/__pycache__/urls.cpython-313.pyc
+*.pyc
+matches/migrations/0004_alter_match_away_odds_alter_match_away_team_and_more.py
+matches/migrations/0005_alter_match_away_odds_alter_match_draw_odds_and_more.py

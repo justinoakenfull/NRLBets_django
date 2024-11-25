@@ -1,6 +1,7 @@
-{% load static %}
+{% load static %} {% load form_extras %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,11 @@
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <link rel="stylesheet" href="{% static 'css/topbar.css' %}">
+    {% block extra_head %}{% endblock %}
     
     <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
 </head>
+
 <body>
     <div class="page">
         <!-- Sidebar -->
@@ -26,10 +29,16 @@
             <input type="checkbox" title="Navigation menu" class="navbar-toggler">
             <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
                 <nav class="flex-column">
-                    <div class="nav-item px-3"><a href="" class="nav-link active" aria-current="page"><span class="bi bi-house-door-fill-nav-menu"></span> Home</a></div>
-                    <div class="nav-item px-3"><a href="counter" class="nav-link"><span class="bi bi-arrow-right-square-fill-nav-menu text-center"></span> Upcoming Games </a></div>
+                    <div class="nav-item px-3"><a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-current="page"><span class="bi bi-house-door-fill-nav-menu"></span> Home</a></div>
+                    <div class="nav-item px-3"><a href="{% url 'upcoming_matches' %}" class="nav-link  {% if request.resolver_match.url_name == 'upcoming_matches' %}active{% endif %}"><span class="bi bi-arrow-right-square-fill-nav-menu text-center"></span> Upcoming Games </a></div>
                     {% if user.is_authenticated %}
-                    <div class="nav-item px-3"><a href="{% url 'profile' %}" class="nav-link"><span class="bi bi-lock-nav-menu"></span> My Profile</a></div>
+                    <div class="nav-item px-3"><a href="{% url 'profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> My Profile</a></div>
+                    <div class="nav-item px-3"><a href="{% url 'upcoming_matches' %}" class="nav-link  {% if request.resolver_match.url_name == 'upcoming_matches' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> Matches</a></div>
+                    {% if user.is_superuser %}
+                    <hr class="text-light">
+                    <div class="nav-item px-3"><a href="{% url 'admin:index' %}" class="nav-link  {% if request.resolver_match.url_name == 'admin:index' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> Admin</a></div>
+                    <div class="nav-item px-3"><a href="{% url 'add_match' %}" class="nav-link  {% if request.resolver_match.url_name == 'add_match' %}active{% endif %}"><span class="bi bi-lock-nav-menu"></span> Add Match</a></div>
+                    {% endif %}
                     <div class="nav-item px-3">
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
                             {% csrf_token %}

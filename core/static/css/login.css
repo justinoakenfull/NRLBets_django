@@ -1,0 +1,60 @@
+body{
+    background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%)
+}
+
+.card {
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 600px;
+    background: transparent;
+}
+.card img {
+    width: 100px;
+    margin-bottom: 20px;
+}
+.forgot-password {
+    color: #d1d1d1;
+}
+
+.form-control {
+    background-color: transparent; /* Keep the background transparent if desired */
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid #ffffff; /* Add a border only on the bottom */
+    border-radius: 0; /* Make sure there is no border radius */
+    color: white; /* Set text color */
+}
+
+.form-control:focus {
+    box-shadow: none; /* Disable any box-shadow when focused */
+    border-bottom: 1px solid #d1d1d1; /* Change border-bottom color when the input is focused */
+    background-color: transparent; /* Keep the background transparent if desired */
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(175, 175, 175);
+    opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(175, 175, 175);
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(175, 175, 175);
+}
+
+
+.input-group-text {
+    background-color: transparent; /* Keep the background transparent if desired */
+    border: none; /* Remove all borders */
+    border-radius: 0; /* Make sure there is no border radius */
+    color: white; /* Set text color */
+}
+
+.rounded {
+    border-radius: 5rem !important;
+}
+
+.size-500 {
+    min-width: 500px;
+}

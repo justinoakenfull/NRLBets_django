@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Add Match{% endblock %}
+{% load static %}
+{% load form_extras %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/round.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="d-flex flex-fill row">
+<h1>Upcoming Matches - Round {{round}}</h1>
+
+<ul class="pagination  round-navigation">
+    <li class="page-item"><a class="page-link" href="{% url 'upcoming_matches' %}?round={{ previous_round }}">&larr;</a></li>
+    <li class="page-item"><a class="page-link">Round {{round}}</a></li>
+    <li class="page-item"><a class="page-link" href="{% url 'upcoming_matches' %}?round={{ next_round }}">&rarr;</a></li>
+</ul>
+
+{% for match in matches %}
+    {% include 'matches/match_listing.html' %}
+{% endfor %}
+</div>
+{% endblock %}

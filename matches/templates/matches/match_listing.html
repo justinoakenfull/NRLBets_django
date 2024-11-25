@@ -1,0 +1,75 @@
+{% load static %}
+<script src="{% static 'js/bets.js' %}"></script>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <!-- Match Header -->
+        <div class="text-center mb-2">
+            <p class="text-muted mb-0">{{ match.match_date }}</p>
+        </div>
+
+        <!-- Teams, Time, and Odds -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <!-- Home Team -->
+            <div class="text-center" style="flex: 1;">
+                <img src="{% static 'images/teams/' %}{{ match.home_team }}.svg" alt="{{ match.home_team }} logo" class="img-fluid" style="width: 80px;">
+                <p class="mt-2 font-weight-bold">{{ match.home_team_full }}</p>
+            </div>
+
+            <!-- Match Time -->
+            <div class="text-center" style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                <p class="font-weight-bold mb-0" style="font-size: 1.5rem;">{{ match.match_time|time:"g:iA" }}</p>
+                <p class="text-muted mb-0 mt-3">{{ match.match_location_full }}</p>
+            </div>
+
+            <!-- Away Team -->
+            <div class="text-center" style="flex: 1;">
+                <img src="{% static 'images/teams/' %}{{ match.away_team }}.svg" alt="{{ match.away_team }} logo" class="img-fluid" style="width: 80px;">
+                <p class="mt-2 font-weight-bold">{{ match.away_team_full }}</p>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <!-- Home Odds -->
+            <div class="justify-content-center text-center mb-2" style="min-width: 30%;">
+                <h6 class="font-weight-bold">Home Odds</h6>
+                <button id="home_odds_{{ match.match_id }}"
+                        data-match-id="{{ match.match_id }}"
+                        data-team-selection="home"
+                        class="btn bet-button" 
+                        style="border-color: {{ match.home_team_color }}; border-width: 1px; min-width: 100%;"
+                        onClick="toggleSelection(this)">
+                    ${{ match.home_odds }}
+                </button>
+            </div>
+        
+            <!-- Draw Odds -->
+            <div class="justify-content-center text-center mb-2" style="min-width: 30%;">
+                <h6 class="font-weight-bold">Draw Odds</h6>
+                <button id="draw_odds_{{ match.match_id }}"
+                        data-match-id="{{ match.match_id }}"
+                        data-team-selection="draw"
+                        class="btn bet-button"
+                        style="border-color: black; border-width: 1px; min-width: 100%;"
+                        onClick="toggleSelection(this)">
+                        ${{ match.draw_odds }}
+                    </button>
+            </div>
+        
+            <!-- Away Odds -->
+            <div class="justify-content-center text-center mb-2" style="min-width: 30%;">
+                <h6 class="font-weight-bold">Away Odds</h6>
+                <button id="away_odds_{{ match.match_id }}"
+                        data-match-id="{{ match.match_id }}"
+                        data-team-selection="away"
+                        class="btn bet-button" 
+                        style="border-color: {{ match.away_team_color }}; border-width: 1px; min-width: 100%;"
+                        onClick="toggleSelection(this)">
+                    ${{ match.away_odds }}
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+

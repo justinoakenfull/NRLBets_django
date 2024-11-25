@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}Add Match{% endblock %}
+{% load static %}
+{% load form_extras %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static '/css/team_colours.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Add Match</h2>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Oops!</strong> There was an error processing your request. Please check the form and try again.
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div>{{ error }}</div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row gy-3">
+            <!-- Match Date -->
+            <div class="col-12 col-md-6">
+                <label for="id_match_date" class="form-label">Match Date</label>
+                {{ form.match_date|add_class:"form-control" }}
+            </div>
+            <!-- Match Time -->
+            <div class="col-12 col-md-6">
+                <label for="id_match_time" class="form-label">Match Time</label>
+                {{ form.match_time|add_class:"form-control" }}
+            </div>
+        </div>
+        <div class="row gy-3">
+            <!-- Home Team Selection -->
+            <div class="col-12">
+                <label class="form-label d-block mb-3">Select Home Team</label>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    {% for key, team in TEAMS.items %}
+                    <input type="radio" id="home_team_{{ key }}" name="home_team" value="{{ key }}" class="d-none">
+                    <label class="team-card" for="home_team_{{ key }}">
+                        <div class="team-icon" style="background: {{ team.color }};"></div>
+                        <div class="team-name">{{ team.name }}</div>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row gy-3">
+            <!-- Away Team Selection -->
+            <div class="col-12">
+                <label class="form-label d-block mb-3">Select Away Team</label>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    {% for key, team in TEAMS.items %}
+                    <input type="radio" id="away_team_{{ key }}" name="away_team" value="{{ key }}" class="d-none">
+                    <label class="team-card" for="away_team_{{ key }}">
+                        <div class="team-icon" style="background: {{ team.color }};"></div>
+                        <div class="team-name">{{ team.name }}</div>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row gy-3 align-items-center">
+            <!-- Magic Round Checkbox -->
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="magic_round" name="magic_round">
+                    <label class="form-check-label" for="magic_round">
+                        Is this a Magic Round match?
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row gy-3">
+            <!-- Match Location Selection -->
+            <div class="col-12">
+                <label for="match_location" class="form-label">Select Match Location</label>
+                <select name="match_location" id="match_location" class="form-select">
+                    {% for key, location in HOME_LOCATIONS.items %}
+                    <option value="{{ key }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <!-- Hidden Home Score Field -->
+        {{ form.home_score.as_hidden }}
+
+        <!-- Hidden Away Score Field -->
+        {{ form.away_score.as_hidden }}
+
+        <!-- Hidden Home Odds Field -->
+        {{ form.home_odds.as_hidden }}
+
+        <!-- Hidden Away Odds Field -->
+        {{ form.away_odds.as_hidden }}
+
+        <!-- Hidden Draw Odds Field -->
+        {{ form.draw_odds.as_hidden }}
+        <!-- Submit Button -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary px-4 py-2">Add Match</button>
+        </div>
+    </form>
+</div>
+
+<script src="{% static 'js/update_match_choices.js' %}"></script>
+
+{% endblock %}
