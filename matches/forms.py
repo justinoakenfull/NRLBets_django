@@ -45,6 +45,12 @@ class AddMatchForm(forms.ModelForm):
         widget=forms.HiddenInput()
     )
 
+    status = forms.CharField(
+        max_length=100,
+        initial="Scheduled",
+        widget=forms.HiddenInput()
+    )
+
     class Meta:
         model = Match
         fields = [
@@ -69,6 +75,7 @@ class AddMatchForm(forms.ModelForm):
             'away_score': forms.HiddenInput(),
             'home_odds': forms.HiddenInput(),
             'draw_odds': forms.HiddenInput(),
-            'away_odds': forms.HiddenInput()
+            'away_odds': forms.HiddenInput(),
+            'status': forms.HiddenInput()
 
         }

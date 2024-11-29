@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Add Match{% endblock %}
+{% load static %}
+{% load form_extras %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/round.css' %}">    
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-fill row">
+    <div class="text-center mt-2">
+        <h1>Match: {{ match.home_team_full }} vs {{ match.away_team_full }}</h1>
+        <h2>Round {{ round }}</h2>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <!-- Match Header -->
+            <div class="text-center mb-2">
+                <p class="text-muted mb-0">{{ match.match_date }}</p>
+            </div>
+            <form method="post" action="{% url 'complete_match' %}?match_id={{match.match_id}}">
+            {% csrf_token %}
+            <input type="hidden" name="match_id" value="{{ match.match_id }}">
+            <!-- Teams, Time, and Odds -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- Home Team -->
+                <div class="text-center" style="flex: 1;">
+                    <img src="{% static 'images/teams/' %}{{ match.home_team }}.svg" alt="{{ match.home_team }} logo" class="img-fluid" style="width: 80px;">
+                    <p class="mt-2 font-weight-bold">{{ match.home_team_full }}</p>
+
+                    <input type="number" class="form-control mt-3" placeholder="Home Team Score" name="home_score" id="home_score" required>
+                </div>
+
+                <!-- Match Time -->
+                <div class="text-center" style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                    <p class="font-weight-bold mb-0" style="font-size: 1.5rem;">{{ match.match_time|time:"g:iA" }}</p>
+                    <p class="text-muted mb-0 mt-3">{{ match.match_location_full }}</p>
+                </div>
+
+                <!-- Away Team -->
+                <div class="text-center" style="flex: 1;">
+                    <img src="{% static 'images/teams/' %}{{ match.away_team }}.svg" alt="{{ match.away_team }} logo" class="img-fluid" style="width: 80px;">
+                    <p class="mt-2 font-weight-bold">{{ match.away_team_full }}</p>
+
+                    <input type="number" class="form-control mt-3" placeholder="Away Team Score" name="away_score" id="away_score" required>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Complete Match</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

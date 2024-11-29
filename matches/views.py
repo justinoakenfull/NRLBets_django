@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import AddMatchForm
-from .choices import HOME_LOCATIONS, TEAMS, TEAMS_KEYS
+from .choices import HOME_LOCATIONS, TEAMS, TEAMS_KEYS, MATCH_STATUS
 from .models import Match
 from odds.utils import OddsCalculator as OddsCalc
+from bets.utils import payout_bets
+from .utils import update_match_odds, get_match, get_match_round
 
 # Create your views here.
 
@@ -19,6 +21,8 @@ def AddMatch(request):
             match.home_odds = odds['home_odds']
             match.draw_odds = odds['draw_odds']
             match.away_odds = odds['away_odds']
+            # Set the status
+            match.status = MATCH_STATUS["Scheduled"]
             # Save the match
             match.save()
             return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
@@ -33,7 +37,7 @@ def AddMatch(request):
 
 def upcomingMatches(request):
 
-    round = int(request.GET.get('round', None))
+    round = int(request.GET.get('round', 1))
     if round is None:
         round = 1
     if round < 1:
@@ -71,14 +75,32 @@ def upcomingMatches(request):
 
 
     odds = OddsCalc()
-    
-    return render(request, "matches/upcoming_matches.html", {'matches': filtered_matches, 'TEAMS': TEAMS, 'round': round, 'next_round': round+1, 'previous_round': round-1})
 
-def update_match_odds(matches):
-    oddsCalc = OddsCalc()
-    for match in matches:
-        odds = oddsCalc.predict_match_odds(TEAMS_KEYS[match.home_team], TEAMS_KEYS[match.away_team])
-        match.home_odds = odds['home_odds']
-        match.draw_odds = odds['draw_odds']
-        match.away_odds = odds['away_odds']
+    # Get user credits to help with betting
+    user_credits = 0
+    if request.user.is_authenticated:
+        user_credits = request.user.account.credits
+    return render(request, "matches/upcoming_matches.html", {'matches': filtered_matches, 'TEAMS': TEAMS, 'round': round, 'next_round': round+1, 'previous_round': round-1, 'user_credits': user_credits})
+
+def completeMatch(request):
+    match_id = request.GET.get('match_id')
+    match = get_match(match_id)
+    match_round = get_match_round(match_id)
+    if request.method == 'POST':
+        home_score = request.POST.get('home_score')
+        away_score = request.POST.get('away_score')
+        try:
+            home_score = int(home_score)
+            away_score = int(away_score)
+        except:
+            return render(request, "matches/complete_match.html", {'match': match, 'TEAMS': TEAMS, 'round': match_round, 'errors': {"Scores must be integers"}})
+        match.set_home_score(home_score)
+        match.set_away_score(away_score)
+        match.status = MATCH_STATUS["Full Time"]
         match.save()
+        # Call function to complete bets
+        payout_bets(match_id)
+        return redirect('upcoming_matches')
+    
+    return render(request, "matches/complete_match.html", {'match': match, 'TEAMS': TEAMS, 'round': match_round})
+
