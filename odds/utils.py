@@ -6,8 +6,6 @@ from django.conf import settings
 head_to_head_stats_multiplier = 1.5
 home_advantage_default = 0.146
 
-
-
 class OddsCalculator:
     START_DATES = {
         2024: datetime.strptime("03-Mar-24", "%d-%b-%y"),
@@ -23,8 +21,6 @@ class OddsCalculator:
         2021: datetime.strptime("03-Oct-21", "%d-%b-%y"),
         2020: datetime.strptime("25-Oct-20", "%d-%b-%y"),
     }
-
-
 
     def __init__(self):
         self.team_stats = {}

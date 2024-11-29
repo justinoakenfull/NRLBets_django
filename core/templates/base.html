@@ -60,7 +60,19 @@
                 <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
             </div> -->
             <article class="content px-4">
-                {% block content %}{% endblock %}
+                {% if errors %}
+
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <ul>
+                        <h4 class="alert-heading">Errors</h4>
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% block content %}
+                {% endblock %}
             </article>
         </main>
     </div>

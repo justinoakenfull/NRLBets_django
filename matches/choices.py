@@ -62,3 +62,14 @@ TEAMS = {
     "SYD": {"name": "Sydney Roosters", "color": "#001E62"},  # Navy Blue
     "WST": {"name": "West Tigers", "color": "#FF6600"},  # Orange
 }
+
+MATCH_STATUS = {
+    "Scheduled": "Scheduled",
+    "In Progress": "In Progress",
+    "Full Time": "Full Time",
+    "Half Time": "Half Time",
+    "Extra Time": "Extra Time",
+    "Postponed": "Postponed",
+    "Cancelled": "Cancelled",
+    "Abandoned": "Abandoned",
+}

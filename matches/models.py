@@ -1,5 +1,5 @@
 from django.db import models
-from .choices import HOME_LOCATIONS, TEAMS_KEYS
+from .choices import HOME_LOCATIONS, TEAMS_KEYS, MATCH_STATUS
 
 # Create your models here.
 class Match(models.Model):
@@ -14,6 +14,7 @@ class Match(models.Model):
     home_odds = models.DecimalField(max_digits=4, decimal_places=2, default=0, null=True)
     draw_odds = models.DecimalField(max_digits=4, decimal_places=2, default=0, null=True)
     away_odds = models.DecimalField(max_digits=4, decimal_places=2, default=0, null=True)
+    status = models.CharField(max_length=100, default=MATCH_STATUS['Scheduled'], choices=MATCH_STATUS)
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team} - {self.match_date} - {self.match_time}"

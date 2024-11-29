@@ -30,3 +30,25 @@
     color: #fff;
     border-color: #007bff;
 }
+
+.winner {
+    font-weight: 700;
+}
+
+.responsive-font {
+    font-size: 1.25rem;
+}
+
+/* For screen widths less than ~660px */
+@media (max-width: 640px) {
+    .responsive-font {
+        font-size: 0.8125rem;
+    }
+}
+
+/* For screen widths less than ~292px */
+@media (max-width: 292px) {
+    .responsive-font {
+        font-size: 0.625rem;
+    }
+}
