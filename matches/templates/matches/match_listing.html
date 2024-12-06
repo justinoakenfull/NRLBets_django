@@ -174,7 +174,7 @@
             {% if user.is_authenticated and match.status == 'Scheduled' %}
             
             <button class="btn btn-primary ms-3 my-3" onClick="submitBets()">Submit Bets</button>
-            <button class="btn btn-danger ms-3 my-3" onClick="clearBets()">Clear Bets</button>
+            <button class="btn btn-danger ms-3 my-3" onClick="clearBets({{match.match_id}})">Clear Bets</button>
             
             
             {% if user.is_superuser %}

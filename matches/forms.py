@@ -1,6 +1,6 @@
 from django import forms
 from .models import Match
-from .choices import HOME_LOCATIONS, TEAMS
+from .choices import HOME_LOCATIONS, TEAMS, MATCH_STATUS
 from odds.utils import OddsCalculator as OddsCalc
 
 class AddMatchForm(forms.ModelForm):
@@ -47,7 +47,7 @@ class AddMatchForm(forms.ModelForm):
 
     status = forms.CharField(
         max_length=100,
-        initial="Scheduled",
+        initial=MATCH_STATUS['Scheduled'],
         widget=forms.HiddenInput()
     )
 
@@ -55,7 +55,7 @@ class AddMatchForm(forms.ModelForm):
         model = Match
         fields = [
             'match_date', 'match_time', 'home_team', 'away_team', 'match_location', 'home_score', 'away_score', 
-            'home_odds', 'draw_odds', 'away_odds'
+            'home_odds', 'draw_odds', 'away_odds', 'status'
         ]
         widgets = {
             'match_date': forms.DateInput(attrs={

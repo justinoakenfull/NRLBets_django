@@ -13,10 +13,38 @@ function toggleSelectionOnOdds(button){
     button.classList.add('selected');
 }
 
-function clearBets(){
+function clearBets(match_id){
+    console.log("Clearing bets for match ID: " + match_id);
+    if (match_id == null) match_id = 0;
     document.querySelectorAll('.bet-button').forEach(btn => {
-        btn.classList.remove('selected');
+
+        if (btn.classList.contains('selected'))
+        {
+            btn.classList.remove('selected');
+        }
     });
+
+    // const label = document.getElementById(`custom_bet_${match_id}`);
+    // if (!label) {
+    //     console.error(`Label with id custom_bet_${match_id} not found.`);
+    //     return;
+    // }
+    // // Find the parent div of the label
+    // const parentDiv = label.closest('div');
+    // if (!parentDiv) {
+    //     console.error('Parent div not found.');
+    //     return;
+    // }
+
+    // Find the checkbox inside the same div
+    const radio5 = document.getElementById(`bet_amount_5_${match_id}`);
+    radio5.checked = false;
+    const radio10 = document.getElementById(`bet_amount_10_${match_id}`);
+    radio10.checked = false;
+    const radio25 = document.getElementById(`bet_amount_25_${match_id}`);
+    radio25.checked = false;
+    const radioCustom = document.getElementById(`custom_bet_${match_id}`);
+    radioCustom.checked = false;
 }
 
 function submitBets() {
@@ -27,7 +55,9 @@ function submitBets() {
         const teamSelection = btn.getAttribute('data-team-selection');
         const oddsText = btn.textContent.trim();
         const betOdds = parseFloat(oddsText.replace('$', ''));
-
+        const bet_home_odds = document.querySelectorAll(`#home_odds_${matchId}`)[0].textContent.trim();
+        const bet_away_odds = document.querySelectorAll(`#away_odds_${matchId}`)[0].textContent.trim();
+        const bet_draw_odds = document.querySelectorAll(`#draw_odds_${matchId}`)[0].textContent.trim();
         // Determine the selected bet amount
         const betAmountGroup = document.querySelector(`#bet_amount_group_${matchId}`);
         console.log(betAmountGroup);
@@ -50,7 +80,9 @@ function submitBets() {
         bets.push({
             match_id: matchId,
             team_choice: teamSelection,
-            bet_odds: betOdds,
+            bet_home_odds: bet_home_odds,
+            bet_away_odds: bet_away_odds,
+            bet_draw_odds: bet_draw_odds,
             bet_amount: betAmount,
             payout: (betAmount * betOdds).toFixed(2) // Calculate potential payout
         });
@@ -76,7 +108,7 @@ function submitBets() {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        clearBets(); // Clear selections and reset input fields after submission
+        bets.forEach(bet => clearBets(bet.match_id)) // Clear selections and reset input fields after submission
     })
     .catch(error => {
         console.error('Error:', error);
