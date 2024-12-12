@@ -1,0 +1,16 @@
+<div>
+    {% if settled_bets_count == 0 %}
+        <h5 class="text-center">No settled bets</h5>
+    {% else %}
+    {% for round_number, bets in grouped_settled_bets.items %}
+        <div class="mb-4 text-center">
+            <h3>Round {{ round_number }}</h3>
+            <ul class="list-group">
+                {% for bet in bets %}
+                    {% include 'bets_modules/settled_bet_listing.html' %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    {% endif %}
+</div>

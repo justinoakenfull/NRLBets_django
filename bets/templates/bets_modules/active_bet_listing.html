@@ -1,0 +1,80 @@
+{% load static %}
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <!-- Bet Header -->
+        <div class="text-center mb-2">
+            <p class="text-muted mb-0">{{ bet.match.match_date|date:"M d, Y" }}</p>
+        </div>
+
+        <!-- Teams, Time, and Odds -->
+        <div class="row mb-3 align-items-center">
+
+            <!-- Large screens -->
+            <div class="d-none d-md-flex w-100 align-items-center">
+                <!-- Home Team -->
+                <div class="col-md-2 text-center">
+                    <img src="{% static 'images/teams/' %}{{ bet.match.home_team }}.svg" alt="{{ bet.match.home_team }} logo" class="img-fluid" style="max-width: 80px;">
+                    <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.home_team }}</p>
+                </div>
+
+                <!-- Home Odds -->
+                <div class="col-md-2 text-center">
+                    <p class="font-weight-bold">Home Odds: <span class="count-up" data-value="{{ bet.match.home_odds }}">0</span></p>
+                </div>
+
+                <!-- Match Status -->
+                <div class="col-md-4 text-center d-flex align-items-center justify-content-center">
+                    <p class="font-weight-bold mb-0" style="font-size: 1.5rem;">Bet: $<span class="count-up" data-value="{{ bet.bet_amount }}">0</span></p>
+                </div>
+
+                <!-- Away Odds -->
+                <div class="col-md-2 text-center">
+                    <p class="font-weight-bold">Away Odds: <span class="count-up" data-value="{{ bet.match.away_odds }}">0</span></p>
+                </div>
+
+                <!-- Away Team -->
+                <div class="col-md-2 text-center">
+                    <img src="{% static 'images/teams/' %}{{ bet.match.away_team }}.svg" alt="{{ bet.match.away_team }} logo" class="img-fluid" style="max-width: 80px;">
+                    <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.away_team_full }}</p>
+                </div>
+            </div>
+
+            <!-- Small screens -->
+            <div class="d-md-none w-100">
+                <!-- First row: Teams and Bet -->
+                <div class="row align-items-center">
+                    <!-- Home Team -->
+                    <div class="col-4 text-center">
+                        <img src="{% static 'images/teams/' %}{{ bet.match.home_team }}.svg" alt="{{ bet.match.home_team }} logo" class="img-fluid" style="max-width: 60px;">
+                        <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.home_team_full }}</p>
+                    </div>
+                    <!-- Bet Amount -->
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <p class="font-weight-bold mb-0" style="font-size: 1.2rem;">Bet: ${{ bet.bet_amount }}</p>
+                    </div>
+                    <!-- Away Team -->
+                    <div class="col-4 text-center">
+                        <img src="{% static 'images/teams/' %}{{ bet.match.away_team }}.svg" alt="{{ bet.match.away_team }} logo" class="img-fluid" style="max-width: 60px;">
+                        <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.away_team_full }}</p>
+                    </div>
+                </div>
+                <!-- Second row: Odds -->
+                <div class="row">
+                    <!-- Home Odds -->
+                    <div class="col-6 text-center">
+                        <p class="font-weight-bold">Home Odds: {{ bet.match.home_odds }}</p>
+                    </div>
+                    <!-- Away Odds -->
+                    <div class="col-6 text-center">
+                        <p class="font-weight-bold">Away Odds: {{ bet.match.away_odds }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Potential Payout -->
+        <div class="text-center">
+            <p class="font-weight-bold text-success">Potential Payout: ${{ bet.payout }}</p>
+        </div>
+    </div>
+</div>

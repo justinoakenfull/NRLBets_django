@@ -14,9 +14,9 @@
         <h1 class="text-center">Upcoming Matches - Round {{round}}</h1>
 
         <ul class="pagination  round-navigation">
-            <li class="page-item"><a class="page-link" href="{% url 'upcoming_matches' %}?round={{ previous_round }}">&larr;</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'matches' %}?round={{ previous_round }}">&larr;</a></li>
             <li class="page-item"><a class="page-link">Round {{round}}</a></li>
-            <li class="page-item"><a class="page-link" href="{% url 'upcoming_matches' %}?round={{ next_round }}">&rarr;</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'matches' %}?round={{ next_round }}">&rarr;</a></li>
         </ul>
 
     {% for match in matches %}

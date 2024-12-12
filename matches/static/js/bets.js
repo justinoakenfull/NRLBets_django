@@ -113,6 +113,7 @@ function submitBets() {
     .then(data => {
         console.log(data);
         bets.forEach(bet => clearBets(bet.match_id)) // Clear selections and reset input fields after submission
+        location.reload(true); // Reload the page to update the bet options
     })
     .catch(error => {
         console.error('Error:', error);
@@ -157,4 +158,43 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+function removeCredits(removeAmount) {
+    const creditsElement = document.getElementById('user_credits');
+    if (creditsElement) {
+        // Retrieve the current credits from the data attribute
+        const currentCredits = parseFloat(creditsElement.getAttribute('data-credits'));
+        
+        if (isNaN(currentCredits)) {
+            console.error('Current credits are not defined or invalid.');
+            return false;
+        }
+
+        if (currentCredits < removeAmount) {
+            alert('Insufficient credits. Please top up your account.');
+            return false;
+        }
+
+        // Calculate the new credits
+        const newCredits = currentCredits - removeAmount;
+
+        // Update the display and the data attribute
+        updateCredits(newCredits);
+
+        return true;
+    }
+    return false;
+}
+
+function updateCredits(newCredits) {
+    const creditsElement = document.querySelector('.user-credits');
+    if (creditsElement) {
+        // Update the text
+        const creditsDisplay = creditsElement.querySelector('strong');
+        creditsDisplay.textContent = `$${newCredits}`;
+
+        // Update the data attribute
+        creditsElement.setAttribute('data-credits', newCredits);
+    }
 }

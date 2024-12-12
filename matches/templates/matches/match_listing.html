@@ -146,19 +146,19 @@
         <!-- Bet Amount Selection -->
         {% if user.is_authenticated %}
         {% if match.user_has_bet %}
-        <p><strong>You have already placed a bet on this match.</strong></p>
+        <p class="text-center mt-3"><strong>You have already placed a bet on this match.</strong></p>
         {% else %}
         <div id="bet_amount_group_{{match.match_id}}" class="bet-amount-group mt-3 row">
             <div class="col-6 col-md-3 text-center mb-2">
-                <input id="bet_amount_5_{{match.match_id}}" type="radio" class="btn-check" name="bet_amount_{{match.match_id}}" value="5">
+                <input id="bet_amount_5_{{match.match_id}}" type="radio" class="btn-check" name="bet_amount_{{match.match_id}}" value="5" onchange="removeCredits(5)">
                 <label class="btn btn-outline-primary w-100" for="bet_amount_5_{{match.match_id}}">$5</label>
             </div>
             <div class="col-6 col-md-3 text-center mb-2">
-                <input id="bet_amount_10_{{match.match_id}}" type="radio" class="btn-check" name="bet_amount_{{match.match_id}}" value="10">
+                <input id="bet_amount_10_{{match.match_id}}" type="radio" class="btn-check" name="bet_amount_{{match.match_id}}" value="10" onchange="removeCredits(10)">
                 <label class="btn btn-outline-primary w-100" for="bet_amount_10_{{match.match_id}}">$10</label>
             </div>
             <div class="col-6 col-md-3 text-center mb-2">
-                <input id="bet_amount_25_{{match.match_id}}" type="radio" class="btn-check" name="bet_amount_{{match.match_id}}" value="25">
+                <input id="bet_amount_25_{{match.match_id}}" type="radio" class="btn-check" name="bet_amount_{{match.match_id}}" value="25" onchange="removeCredits(25)">
                 <label class="btn btn-outline-primary w-100" for="bet_amount_25_{{match.match_id}}">$25</label>
             </div>
             <div class="col-6 col-md-3 text-center mb-2">
@@ -167,7 +167,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center text-center mt-2">
-            <input type="number" id="custom_bet_amount_{{match.match_id}}" class="form-control text-center" placeholder="Enter amount" style="display: none; max-width: 50%;" step="0.01" max="{{user_credits}}">
+            <input type="number" id="custom_bet_amount_{{match.match_id}}" class="form-control text-center" placeholder="Enter amount" style="display: none; max-width: 50%;" step="0.01" max="{{user_credits}}"" onchange="removeCredits(this.value)">
         </div>
         {% endif %}
         {% else %}
@@ -181,11 +181,11 @@
             
             <button class="btn btn-primary ms-3 my-3" onClick="submitBets()">Submit Bets</button>
             <button class="btn btn-danger ms-3 my-3" onClick="clearBets({{match.match_id}})">Clear Bets</button>
-            
-            
-            {% if user.is_superuser %}
-                <a href="{% url 'complete_match' %}?match_id={{ match.match_id }}" class="btn btn-primary ms-3 my-3">Complete Match</a>
             {% endif %}
+            
+            {% if user.is_superuser and match.status == 'Scheduled' %}
+                <a href="{% url 'complete_match' %}?match_id={{ match.match_id }}" class="btn btn-primary ms-3 my-3">Complete Match</a>
+            
             {% endif %}
 
         </div>

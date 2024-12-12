@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Add Match{% endblock %}
+{% load static %}
+{% load form_extras %} 
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/bet-nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/bet-card.css' %}">
+<script src="{% static 'js/bet-counter.js' %}"></script>
+{% endblock %} 
+{% block content %}
+
+<div class="d-flex flex-fill row">
+  <h1 class="text-center">My Bets</h1>
+  <div class="d-flex flex-column mt-5">
+    <!-- Nav Pills -->
+    <ul class="nav nav-tabs nav-fill flex-nowrap mb-3" id="pills-tab" role="tablist">
+        <!-- Active Bets -->
+        <li class="nav-item p-0" role="presentation">
+            <button class="nav-link active" id="pills-active-bets-tab" data-bs-toggle="pill" data-bs-target="#pills-active-bets" type="button" role="tab" aria-controls="pills-active-bets" aria-selected="true">
+                <img src="{% static 'images/betting.png' %}" class="img-fluid pe-2">Active <span class="badge bg-danger ms-2">{{active_bets_count}}</span>
+            </button>
+        </li>
+        <!-- Settled Bets -->
+        <li class="nav-item p-0 ps-3" role="presentation">
+            <button class="nav-link" id="pills-settled-bets-tab" data-bs-toggle="pill" data-bs-target="#pills-settled-bets" type="button" role="tab" aria-controls="pills-settled-bets" aria-selected="false">
+              <img src="{% static 'images/check.png' %}" class="img-fluid pe-3">Settled 
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="pills-tabContent">
+        <!-- Active Bets Content -->
+        <div class="tab-pane fade show active" id="pills-active-bets" role="tabpanel" aria-labelledby="pills-active-bets-tab">
+          {% include 'bets_modules/active_bets.html' %}
+        </div>
+        <!-- Settled Bets Content -->
+        <div class="tab-pane fade" id="pills-settled-bets" role="tabpanel" aria-labelledby="pills-settled-bets-tab">
+          {% include 'bets_modules/settled_bets.html' %}
+        </div>
+    </div>
+</div>
+  
+  
+{% endblock %}

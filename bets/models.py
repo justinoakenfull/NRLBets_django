@@ -1,5 +1,5 @@
 from django.db import models
-from .choices import TEAM_CHOICE
+from .choices import TEAM_CHOICE, BET_STATUS
 
 # A user's bet on an NRL match
 class UserBet(models.Model):
@@ -15,6 +15,7 @@ class UserBet(models.Model):
     payout = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=100, choices=BET_STATUS, default='Pending')
 
     class Meta:
         db_table = 'user_bets'

@@ -55,7 +55,7 @@ def get_matches_by_round(round, user):
         )
     else:
         # Default annotation for unauthenticated users
-        matches = Match.objects.filter(id__in=[m.pk for m in matches]).annotate(
+        matches = Match.objects.filter(pk__in=[m.pk for m in matches]).annotate(
             user_has_bet=Value(False, output_field=BooleanField())
         )
 

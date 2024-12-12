@@ -1,0 +1,18 @@
+li[role="presentation"] button.nav-link {
+    background-color: var(--bs-primary) !important;
+    color: var(--bs-light) !important;
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+
+li[role="presentation"] button.nav-link:hover {
+    background-color: var(--bs-dark) !important;
+}
+li[role="presentation"] button.nav-link:not(.active) {
+    background-color: var(--bs-dark) !important;
+}
+
+li[role="presentation"] button.nav-link:not(.active) .badge {
+    background-color: var(--bs-light) !important;
+    color: var(--bs-dark) !important;
+}

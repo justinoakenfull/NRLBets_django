@@ -38,41 +38,6 @@ def AddMatch(request):
         form = AddMatchForm(initial={'home_score': 0, 'away_score': 0})
     return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
 
-# def upcomingMatches(request):
-#     round = int(request.GET.get('round', 1))
-#     round = max(1, min(round, 27))  # Ensure round is between 1 and 27
-
-#     # Fetch all matches and annotate whether the user has placed a bet on each
-#     matches = get_matches_by_round(round)
-
-#     if request.user.is_authenticated:
-#         # Add an annotation to check if the user has placed a bet on the match
-#         matches = matches.annotate(
-#             user_has_bet=Exists(
-#                 UserBet.objects.filter(
-#                     user=request.user.account,
-#                     match=OuterRef('pk')
-#                 )
-#             )
-#         )
-#     else:
-#         # Default annotation for unauthenticated users
-#         matches = matches.annotate(
-#             user_has_bet=Value(False, output_field=BooleanField())
-#         )
-
-#     # Get user credits for betting options
-#     user_credits = request.user.account.credits if request.user.is_authenticated else 0
-
-#     return render(request, "matches/upcoming_matches.html", {
-#         'matches': matches,
-#         'TEAMS': TEAMS,
-#         'round': round,
-#         'next_round': round + 1,
-#         'previous_round': round - 1,
-#         'user_credits': user_credits,
-#     })
-
 def upcomingMatches(request):
     round = int(request.GET.get('round', 1))
     round = max(1, min(round, 27))  # Ensure round is between 1 and 27
@@ -90,7 +55,7 @@ def upcomingMatches(request):
 
     user_credits = request.user.account.credits if request.user.is_authenticated else 0
 
-    return render(request, "matches/upcoming_matches.html", {
+    return render(request, "matches/matches.html", {
         'matches': matches,
         'round': round,
         'next_round': round + 1,
@@ -102,7 +67,7 @@ def upcomingMatches(request):
 def completeMatch(request):
     match_id = request.GET.get('match_id')
     match = get_match(match_id)
-    match_round = get_match_round(match_id)
+    match_round = get_match_round(match.match_date)
     if request.method == 'POST':
         home_score = request.POST.get('home_score')
         away_score = request.POST.get('away_score')

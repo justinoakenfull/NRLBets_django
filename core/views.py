@@ -7,7 +7,15 @@ from django.contrib.auth.decorators import login_required
 # Request Handler, not actually 'views' in the sense of 'views' in MVC
 
 def home(request):
-    return render(request, 'landing_page.html')
+
+    
+    if request.user.is_authenticated:
+        user_credits = request.user.account.credits
+        return render(request, 'landing_page.html', {'user_credits': user_credits})
+    else:
+        return render(request, 'landing_page.html')
+
+    
 
 def register(request):
     if request.method == 'POST':

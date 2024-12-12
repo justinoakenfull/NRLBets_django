@@ -1,0 +1,99 @@
+.bet-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.bet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.match-teams {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.team {
+    text-transform: uppercase;
+}
+
+.vs {
+    margin: 0 8px;
+    color: #888;
+}
+
+.match-status {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.match-status.scheduled {
+    background-color: #007bff;
+}
+
+.match-status.completed {
+    background-color: #28a745;
+}
+
+.match-status.canceled {
+    background-color: #dc3545;
+}
+
+.bet-details {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.match-info,
+.bet-info {
+    font-size: 14px;
+    color: #555;
+}
+
+.match-date,
+.match-time,
+.match-location,
+.bet-amount,
+.team-choice {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.bet-footer {
+    margin-top: 16px;
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.odds {
+    gap: 12px;
+    font-size: 14px;
+}
+
+.potential-payout {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.winner {
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for emphasis */
+}
