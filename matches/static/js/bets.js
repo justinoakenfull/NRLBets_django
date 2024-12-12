@@ -38,13 +38,13 @@ function clearBets(match_id){
 
     // Find the checkbox inside the same div
     const radio5 = document.getElementById(`bet_amount_5_${match_id}`);
-    radio5.checked = false;
+    if (radio5) radio5.checked = false;
     const radio10 = document.getElementById(`bet_amount_10_${match_id}`);
-    radio10.checked = false;
+    if (radio10) radio10.checked = false;
     const radio25 = document.getElementById(`bet_amount_25_${match_id}`);
-    radio25.checked = false;
+    if (radio25) radio25.checked = false;
     const radioCustom = document.getElementById(`custom_bet_${match_id}`);
-    radioCustom.checked = false;
+    if (radioCustom) radioCustom.checked = false;
 }
 
 function submitBets() {
@@ -61,6 +61,10 @@ function submitBets() {
         // Determine the selected bet amount
         const betAmountGroup = document.querySelector(`#bet_amount_group_${matchId}`);
         console.log(betAmountGroup);
+        if (!betAmountGroup) {
+            console.error(`You must select a bet amount for Match ID ${matchId}: ${teamSelection}`);
+            return;
+        }
         const selectedAmount = betAmountGroup.querySelector('input[type="radio"]:checked');
         let betAmount = selectedAmount ? parseFloat(selectedAmount.value) : 0;
 
@@ -93,7 +97,7 @@ function submitBets() {
         return;
     }
 
-    console.log(bets); // Debugging: View the constructed bets array
+    //console.log(bets); // Debugging: View the constructed bets array
     
     // CSRF token for secure POST request
     const csrftoken = getCookie('csrftoken');

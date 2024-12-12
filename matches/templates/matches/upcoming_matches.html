@@ -26,9 +26,11 @@
     {% endfor %}
 
         <!-- Buttons to submit bets -->
+        {% if user.is_authenticated %}
         <div class="div d-flex justify-content-between mb-3">
             <button class="btn btn-primary" onClick="submitBets()">Submit Bets</button>
             <button class="btn btn-danger" onClick="clearBets()">Clear Bets</button>
         </div>
+        {% endif %}
     </div>
     {% endblock %}

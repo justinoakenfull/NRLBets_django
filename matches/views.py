@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
+from django.db.models import Exists, OuterRef, Value, BooleanField
 from .forms import AddMatchForm
 from .choices import HOME_LOCATIONS, TEAMS, TEAMS_KEYS, MATCH_STATUS
 from .models import Match
+
 from odds.utils import OddsCalculator as OddsCalc
 from bets.utils import payout_bets
+from .utils import get_matches_by_round, get_team_attribute, get_location_full
 from .utils import update_match_odds, get_match, get_match_round
 
 # Create your views here.
@@ -35,52 +38,66 @@ def AddMatch(request):
         form = AddMatchForm(initial={'home_score': 0, 'away_score': 0})
     return render(request, "matches/add_match.html", {'form': form, 'HOME_LOCATIONS': HOME_LOCATIONS, 'TEAMS': TEAMS, 'errors': form.errors})
 
+# def upcomingMatches(request):
+#     round = int(request.GET.get('round', 1))
+#     round = max(1, min(round, 27))  # Ensure round is between 1 and 27
+
+#     # Fetch all matches and annotate whether the user has placed a bet on each
+#     matches = get_matches_by_round(round)
+
+#     if request.user.is_authenticated:
+#         # Add an annotation to check if the user has placed a bet on the match
+#         matches = matches.annotate(
+#             user_has_bet=Exists(
+#                 UserBet.objects.filter(
+#                     user=request.user.account,
+#                     match=OuterRef('pk')
+#                 )
+#             )
+#         )
+#     else:
+#         # Default annotation for unauthenticated users
+#         matches = matches.annotate(
+#             user_has_bet=Value(False, output_field=BooleanField())
+#         )
+
+#     # Get user credits for betting options
+#     user_credits = request.user.account.credits if request.user.is_authenticated else 0
+
+#     return render(request, "matches/upcoming_matches.html", {
+#         'matches': matches,
+#         'TEAMS': TEAMS,
+#         'round': round,
+#         'next_round': round + 1,
+#         'previous_round': round - 1,
+#         'user_credits': user_credits,
+#     })
+
 def upcomingMatches(request):
-
     round = int(request.GET.get('round', 1))
-    if round is None:
-        round = 1
-    if round < 1:
-        round = 1
-    if round > 27:
-        round = 27
-    matches = Match.objects.all().order_by('match_date', 'match_time')
-    update_match_odds(matches)
-    matches = matches.order_by('match_date', 'match_time')
-    team_colors = {}
-    filtered_matches = []
+    round = max(1, min(round, 27))  # Ensure round is between 1 and 27
 
+    # Fetch matches for the specified round
+    matches = get_matches_by_round(round, request.user)
+
+    # Process annotations for team names and colors dynamically
     for match in matches:
-        # Dynamically add color attributes
-        match.home_team_color = TEAMS.get(match.home_team, {}).get("color", "#CCCCCC")
-        match.away_team_color = TEAMS.get(match.away_team, {}).get("color", "#CCCCCC")
-        # Rename teams to full names
-        match.home_team_full = TEAMS.get(match.home_team, {}).get("name", match.home_team)
-        match.away_team_full = TEAMS.get(match.away_team, {}).get("name", match.away_team)
-        # Add full location name
-        match.match_location_full = HOME_LOCATIONS.get(match.match_location, match.match_location)
+        match.home_team_color = get_team_attribute(match.home_team, "color")
+        match.away_team_color = get_team_attribute(match.away_team, "color")
+        match.home_team_full = get_team_attribute(match.home_team, "name")
+        match.away_team_full = get_team_attribute(match.away_team, "name")
+        match.match_location_full = get_location_full(match.match_location)
 
-        match_round = match.match_date.isocalendar()[1]-9
+    user_credits = request.user.account.credits if request.user.is_authenticated else 0
 
-        if round == 1:
-            if match_round == 0:
-                filtered_matches.append(match)
-            if match_round == 1:
-                filtered_matches.append(match)
-        else:
-            if match_round == int(round):
-                filtered_matches.append(match)
-            
-        print(match_round)
+    return render(request, "matches/upcoming_matches.html", {
+        'matches': matches,
+        'round': round,
+        'next_round': round + 1,
+        'previous_round': round - 1,
+        'user_credits': user_credits,
+    })
 
-
-    odds = OddsCalc()
-
-    # Get user credits to help with betting
-    user_credits = 0
-    if request.user.is_authenticated:
-        user_credits = request.user.account.credits
-    return render(request, "matches/upcoming_matches.html", {'matches': filtered_matches, 'TEAMS': TEAMS, 'round': round, 'next_round': round+1, 'previous_round': round-1, 'user_credits': user_credits})
 
 def completeMatch(request):
     match_id = request.GET.get('match_id')
