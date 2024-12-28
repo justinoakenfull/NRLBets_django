@@ -75,3 +75,6 @@ def get_match_round(match_date):
     match_round = match_date.isocalendar()[1] - 9
 
     return max(1, match_round)
+
+def get_team_colour(team):
+    return TEAMS.get(team, {}).get("color", "#CCCCCC")

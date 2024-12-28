@@ -1,5 +1,5 @@
 {% load static %}
-<div class="card shadow-sm mb-4">
+<div class="card shadow-sm mb-4 border" style="border: 1px solid {{bet.team_choice_colour}} !important;">
     <div class="card-body">
         <!-- Bet Header -->
         <div class="text-center mb-2">
@@ -12,9 +12,9 @@
             <!-- Large screens -->
             <div class="d-none d-md-flex w-100 align-items-center">
                 <!-- Home Team -->
-                <div class="col-md-2 text-center">
+                <div class="col-md-2 text-center {% if bet.team_choice == 'home' %}border border-success rounded p-2{% endif %}">
                     <img src="{% static 'images/teams/' %}{{ bet.match.home_team }}.svg" alt="{{ bet.match.home_team }} logo" class="img-fluid" style="max-width: 80px;">
-                    <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.home_team }}</p>
+                    <p class="mt-2 font-weight-bold responsive-font {% if bet.team_choice == 'home' %}text-success font-italic{% endif %}">{{ bet.match.home_team_full }}</p>
                 </div>
 
                 <!-- Home Odds -->
@@ -33,9 +33,9 @@
                 </div>
 
                 <!-- Away Team -->
-                <div class="col-md-2 text-center">
+                <div class="col-md-2 text-center {% if bet.team_choice == 'away' %}border border-success rounded p-2{% endif %}">
                     <img src="{% static 'images/teams/' %}{{ bet.match.away_team }}.svg" alt="{{ bet.match.away_team }} logo" class="img-fluid" style="max-width: 80px;">
-                    <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.away_team_full }}</p>
+                    <p class="mt-2 font-weight-bold responsive-font {% if bet.team_choice == 'away' %}text-success{% endif %}">{{ bet.match.away_team_full }}</p>
                 </div>
             </div>
 
@@ -44,18 +44,18 @@
                 <!-- First row: Teams and Bet -->
                 <div class="row align-items-center">
                     <!-- Home Team -->
-                    <div class="col-4 text-center">
+                    <div class="col-4 text-center {% if bet.team_choice == 'home' %}border border-success rounded p-2{% endif %}">
                         <img src="{% static 'images/teams/' %}{{ bet.match.home_team }}.svg" alt="{{ bet.match.home_team }} logo" class="img-fluid" style="max-width: 60px;">
-                        <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.home_team_full }}</p>
+                        <p class="mt-2 font-weight-bold responsive-font {% if bet.team_choice == 'home' %}text-success{% endif %}">{{ bet.match.home_team_full }}</p>
                     </div>
                     <!-- Bet Amount -->
                     <div class="col-4 d-flex align-items-center justify-content-center">
                         <p class="font-weight-bold mb-0" style="font-size: 1.2rem;">Bet: ${{ bet.bet_amount }}</p>
                     </div>
                     <!-- Away Team -->
-                    <div class="col-4 text-center">
+                    <div class="col-4 text-center {% if bet.team_choice == 'away' %}border border-success rounded p-2{% endif %}">
                         <img src="{% static 'images/teams/' %}{{ bet.match.away_team }}.svg" alt="{{ bet.match.away_team }} logo" class="img-fluid" style="max-width: 60px;">
-                        <p class="mt-2 font-weight-bold responsive-font">{{ bet.match.away_team_full }}</p>
+                        <p class="mt-2 font-weight-bold responsive-font {% if bet.team_choice == 'away' %}text-success{% endif %}">{{ bet.match.away_team_full }}</p>
                     </div>
                 </div>
                 <!-- Second row: Odds -->
