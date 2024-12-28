@@ -75,6 +75,12 @@
         <!-- Potential Payout -->
         <div class="text-center">
             <p class="font-weight-bold text-success">Potential Payout: ${{ bet.payout }}</p>
+            {% if bet.status == 'Pending' %}
+            <form method="POST" action="{% url 'cancel_bet' bet.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger cancel-bet-btn">Cancel Bet</button>
+            </form>
+            {% endif %}
         </div>
     </div>
 </div>

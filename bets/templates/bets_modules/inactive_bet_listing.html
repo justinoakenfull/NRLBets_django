@@ -1,0 +1,47 @@
+{% load static %}
+<div class="card shadow-sm mb-4 border-danger bg-light">
+    <div class="card-body">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="text-muted mb-0">Match Date: {{ bet.match.match_date|date:"M d, Y" }}</h6>
+            <span class="badge bg-danger">Cancelled</span>
+        </div>
+
+        <!-- Teams and Scores -->
+        <div class="row align-items-center">
+            <!-- Home Team -->
+            <div class="col-4 text-center">
+                <img src="{% static 'images/teams/' %}{{ bet.match.home_team }}.svg" 
+                     alt="{{ bet.match.home_team }} logo" 
+                     class="img-fluid mb-2" 
+                     style="max-width: 80px;">
+                <p class="fw-bold mb-0">{{ bet.match.home_team_full }}</p>
+                <span class="fs-5 text-muted">{{ bet.home_score }}</span>
+            </div>
+
+            <!-- Result Divider -->
+            <div class="col-4 text-center">
+                <p class="fw-bold text-danger fs-4">Bet Cancelled</p>
+                {% if bet.cancellation_reason %}
+                    <p class="text-danger fst-italic small">{{ bet.cancellation_reason }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Away Team -->
+            <div class="col-4 text-center">
+                <img src="{% static 'images/teams/' %}{{ bet.match.away_team }}.svg" 
+                     alt="{{ bet.match.away_team }} logo" 
+                     class="img-fluid mb-2" 
+                     style="max-width: 80px;">
+                <p class="fw-bold mb-0">{{ bet.match.away_team_full }}</p>
+                <span class="fs-5 text-muted">{{ bet.away_score }}</span>
+            </div>
+        </div>
+
+        <!-- Bet Details -->
+        <div class="mt-4">
+            <p class="small text-muted mb-1">Bet Amount: <span class="fw-bold">${{ bet.bet_amount }}</span></p>
+            <p class="small text-muted">Potential Payout: <span class="fw-bold">${{ bet.payout }}</span></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div>
+    <p>{{inactive_bets_count}}</p>
+    {% if inactive_bets_count == 0 %}
+        <h5 class="text-center">No inactive bets</h5>
+    {% else %}
+    {% for round_number, bets in grouped_cancelled_bets.items %}
+        <div class="mb-4 text-center">
+            <h3>Round {{ round_number }}</h3>
+            <ul class="list-group">
+                {% for bet in bets %}
+                    {% include 'bets_modules/inactive_bet_listing.html' %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    {% endif %}
+</div>

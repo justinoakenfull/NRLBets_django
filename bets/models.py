@@ -3,6 +3,7 @@ from .choices import TEAM_CHOICE, BET_STATUS
 
 # A user's bet on an NRL match
 class UserBet(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey('core.Account', on_delete=models.CASCADE)
     match = models.ForeignKey('matches.Match', on_delete=models.CASCADE)
     home_score = models.IntegerField(null=True, blank=True)  # Nullable for scoreline bets
@@ -21,7 +22,6 @@ class UserBet(models.Model):
         db_table = 'user_bets'
         verbose_name = 'User Bet'
         verbose_name_plural = 'User Bets'
-        unique_together = ('user', 'match')
 
     def __str__(self):
         return f"{self.user.user.username} - {self.match.home_team} vs {self.match.away_team}"

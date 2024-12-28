@@ -49,7 +49,8 @@ def get_matches_by_round(round, user):
             user_has_bet=Exists(
                 UserBet.objects.filter(
                     user=user.account,
-                    match=OuterRef('pk')
+                    match=OuterRef('pk'),
+                    status='Pending'
                 )
             )
         )

@@ -26,6 +26,12 @@
               <img src="{% static 'images/check.png' %}" class="img-fluid pe-3">Settled 
             </button>
         </li>
+        <!-- Inactive Bets -->
+        <li class="nav-item p-0 ps-3" role="presentation">
+          <button class="nav-link" id="pills-inactive-bets-tab" data-bs-toggle="pill" data-bs-target="#pills-inactive-bets" type="button" role="tab" aria-controls="pills-inactive-bets" aria-selected="false">
+            <img src="{% static 'images/check.png' %}" class="img-fluid pe-3">Inactive 
+          </button>
+      </li>
     </ul>
 
     <!-- Tab Content -->
@@ -37,6 +43,10 @@
         <!-- Settled Bets Content -->
         <div class="tab-pane fade" id="pills-settled-bets" role="tabpanel" aria-labelledby="pills-settled-bets-tab">
           {% include 'bets_modules/settled_bets.html' %}
+        </div>
+        <!-- Inactive Bets Content -->
+        <div class="tab-pane fade" id="pills-inactive-bets" role="tabpanel" aria-labelledby="pills-inactive-bets-tab">
+          {% include 'bets_modules/inactive_bets.html' %}
         </div>
     </div>
 </div>
