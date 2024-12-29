@@ -115,7 +115,10 @@ def get_current_bets(request):
         bet.match.home_team_full = get_team_attribute(bet.match.home_team, "name")
         bet.match.away_team_full = get_team_attribute(bet.match.away_team, "name")
         bet.match.match_location_full = get_location_full(bet.match.match_location)
-        bet.team_choice_colour = get_team_attribute(bet.match.home_team if bet.team_choice == 'home' else bet.match.away_team, "color")
+        if bet.team_choice == 'draw':
+            bet.team_choice_colour = "#FFD700"
+        else:
+            bet.team_choice_colour = get_team_attribute(bet.match.home_team if bet.team_choice == 'home' else bet.match.away_team, "color")
     
     settled_bets = [bet for bet in bets if bet.status != 'Pending' and bet.status != 'Cancelled']
     cancelled_bets = [bet for bet in bets if bet.status == 'Cancelled']
